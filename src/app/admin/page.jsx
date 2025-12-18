@@ -26,6 +26,11 @@ const initialExperienceFormData = {
   location: "",
   jobprofile: "",
 };
+const initialEducationFormData = {
+  degree: "",
+  year: "",
+  college: "",
+};
 export default function AdminView() {
   const [currentSelectedTab, setCurrentSelectedTab] = useState("home");
   const [homeViewFormData, setHomeViewFormData] = useState(initialHomeFormData);
@@ -33,6 +38,9 @@ export default function AdminView() {
     useState(initialAboutFormData);
   const [experienceViewFormData, setExperienceViewFormData] = useState(
     initialExperienceFormData
+  );
+  const [educationViewFormData, setEducationViewFormData] = useState(
+    initialEducationFormData
   );
   const menuItem = [
     {
@@ -68,7 +76,12 @@ export default function AdminView() {
     {
       id: "education",
       label: "Education",
-      component: <AdminEducationView />,
+      component: (
+        <AdminEducationView
+          formData={educationViewFormData}
+          setFormData={setEducationViewFormData}
+        />
+      ),
     },
     {
       id: "project",
