@@ -4,7 +4,7 @@ import Home from "@/models/Home";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-export async function Post(req) {
+export async function POST(req) {
   try {
     await connectToDb();
     const extractData = await req.json();
