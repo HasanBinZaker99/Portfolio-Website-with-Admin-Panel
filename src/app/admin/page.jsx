@@ -128,6 +128,16 @@ export default function AdminView() {
       dataMap[currentSelectedTab]
     );
     console.log(response, "response");
+    if (response.success) {
+      resetFormData();
+    }
+  }
+  function resetFormData() {
+    setHomeViewFormData(initialHomeFormData);
+    setAboutViewFormData(initialAboutFormData);
+    setExperienceViewFormData(initialExperienceFormData);
+    setEducationViewFormData(initialEducationFormData);
+    setProjectViewFormData(initialProjectFormData);
   }
   return (
     <div className="border-b border-gray-400">
@@ -139,6 +149,7 @@ export default function AdminView() {
             className="p-4 font-bold text-xl text-black"
             onClick={() => {
               setCurrentSelectedTab(item.id);
+              resetFormData();
             }}
           >
             {item.label}
