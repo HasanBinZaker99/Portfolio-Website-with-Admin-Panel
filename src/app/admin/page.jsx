@@ -6,8 +6,8 @@ import AdminEducationView from "@/components/admin-view/education";
 import AdminExperienceView from "@/components/admin-view/experience";
 import AdminHomeView from "@/components/admin-view/home";
 import AdminProjectView from "@/components/admin-view/project";
-import { addData } from "@/services";
-import { useState } from "react";
+import { addData, getData } from "@/services";
+import { use, useEffect, useState } from "react";
 
 const initialHomeFormData = {
   heading: "",
@@ -52,6 +52,7 @@ export default function AdminView() {
   const [projectViewFormData, setProjectViewFormData] = useState(
     initialProjectFormData
   );
+  const [allData, setAllData] = useState({});
   const menuItem = [
     {
       id: "home",
@@ -130,8 +131,44 @@ export default function AdminView() {
     console.log(response, "response");
     if (response.success) {
       resetFormData();
+      extractAllData();
     }
   }
+
+  useEffect(() => {
+    extractAllData();
+  }, [currentSelectedTab]);
+  async function extractAllData() {
+    const response = await getData(currentSelectedTab);
+    console.log(response);
+    if (
+      currentSelectedTab == "home" &&
+      response &&
+      response.data &&
+      response.data.length
+    ) {
+      setHomeViewFormData(response && response.data[0]);
+    }
+    /*
+       Are we on the Home tab? Did we get a response? Does response contain data? Is there at least one record? 
+    */
+    if (
+      currentSelectedTab == "about" &&
+      response &&
+      response.data &&
+      response.data.length
+    ) {
+      setAboutViewFormData(response && response.data[0]);
+    }
+    if (response?.success) {
+      // Only proceed if backend says success = true
+      setAllData({
+        ...allData,
+        [currentSelectedTab]: response && response.data,
+      });
+    }
+  }
+  console.log(allData, homeViewFormData, "homeViewFormData");
   function resetFormData() {
     setHomeViewFormData(initialHomeFormData);
     setAboutViewFormData(initialAboutFormData);

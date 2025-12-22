@@ -7,7 +7,7 @@ const ProjectSchema = new mongoose.Schema(
     github: String,
   },
   {
-    timestamps,
+    timestamps: true,
   }
 );
 const Project =
